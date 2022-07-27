@@ -3,7 +3,7 @@
 #this script is based on the firesim build toolchains script
 
 # exit script if any command fails
-set -e
+set -ex
 set -o pipefail
 
 # On macOS, use GNU readlink from 'coreutils' package in Homebrew/MacPorts
@@ -119,6 +119,7 @@ echo '==>  Building ISA sim'
 # disable boost explicitly for https://github.com/riscv-software-src/riscv-isa-sim/issues/834
 # since we don't have it in our requirements
 module_build riscv-isa-sim --prefix="${RISCV}" --with-boost=no --with-boost-asio=no --with-boost-regex=no
+
 # build static libfesvr library for linking into firesim driver (or others)
 echo '==>  Installing libfesvr static library'
 module_make riscv-isa-sim libfesvr.a
