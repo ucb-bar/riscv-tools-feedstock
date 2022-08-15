@@ -32,8 +32,8 @@ github_actions:
   store_build_artifacts: true
 provider:
   linux: github_actions
-  osx: github_actions
-  win: github_actions
+  osx: None
+  win: None
 recipe_dir: recipe
 # skip unnecessary files since this is not a full-fledged conda-forge feedstock
 skip_render:
