@@ -37,12 +37,8 @@ provider:
 recipe_dir: recipe
 # skip unnecessary files since this is not a full-fledged conda-forge feedstock
 skip_render:
-  - README.md
-  - LICENSE.txt
   - .gitattributes
   - .gitignore
-  - build-locally.py
-  - LICENSE
 # enable uploads to Anaconda Cloud from specified branches only
 # ***** UPDATE THIS FOR MAINTENANCE BRANCHES ********************************
 upload_on_branch: main
