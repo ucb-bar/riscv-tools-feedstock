@@ -13,18 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - CONFIG: linux_64_python3.7.____cpython
-            SHORT_CONFIG: linux_64_python3.7.____cpython
-            UPLOAD_PACKAGES: True
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-            os: ubuntu
-          - CONFIG: linux_64_python3.8.____cpython
-            SHORT_CONFIG: linux_64_python3.8.____cpython
-            UPLOAD_PACKAGES: True
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-            os: ubuntu
-          - CONFIG: linux_64_python3.9.____cpython
-            SHORT_CONFIG: linux_64_python3.9.____cpython
+          - CONFIG: linux_64_
+            SHORT_CONFIG: linux_64_
             UPLOAD_PACKAGES: True
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
             os: ubuntu
