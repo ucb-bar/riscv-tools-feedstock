@@ -1,4 +1,3 @@
-clone_depth: 0
 recipe_dir: recipe
 skip_render:
   - README.md
@@ -11,7 +10,6 @@ skip_render:
   - .github/ISSUE_TEMPLATE.md
   - .github/PULL_REQUEST_TEMPLATE.md
   - .github/workflows
-
 providers:
   linux: github_actions
   linux_64: github_actions
