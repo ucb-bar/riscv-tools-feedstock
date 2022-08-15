@@ -40,36 +40,32 @@ requirements:
     - automake
     - flex
     - libtool
-    - expat
+    # qemu specific
     - gtk3
-    - glib
     - pkg-config
+  host:
+    - expat
     - ncurses
     - gmp
     - mpfr
     - mpc
     - zlib
+    # qemu specific
     # qemu also requires being built against kernel-headers >= 2.6.38 because of it's use of
     # MADV_NOHUGEPAGE in a call to madvise.  See:
     # https://man7.org/linux/man-pages/man2/madvise.2.html
     # https://conda-forge.org/docs/maintainer/knowledge_base.html#using-centos-7
     # obvi this would need to be made linux-specific if we supported other MacOS or Windows
     - kernel-headers_linux-64>=2.6.38
+    - glib
 
 test:
   commands:
     - test "$($PREFIX/riscv/bin/riscv64-unknown-elf-gcc -dumpversion)" = "$PKG_VERSION"
 
-# Uncomment and fill in ucb-bar-riscv-tools metadata
-#about:
-#  home: https://github.com/conda-forge/conda-smithy
-#  license: BSD-3-Clause
-#  license_family: BSD
-#  license_file: LICENSE
+about:
+  home: https://github.com/abejgonzalez/ucb-bar-riscv-tools
 
-# Uncomment the following if this will be on a forge
-# Remove these lines if this is only be used for CI
-#extra:
-#  recipe-maintainers:
-#    - BobaFett
-#    - LisaSimpson
+extra:
+  recipe-maintainers:
+    - abejgonzalez
