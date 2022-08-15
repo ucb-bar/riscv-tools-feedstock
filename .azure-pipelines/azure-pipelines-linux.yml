@@ -23,8 +23,6 @@ jobs:
   timeoutInMinutes: 360
 
   steps:
-  - checkout: self
-    fetchDepth: 0
   - script: |
          rm -rf /opt/ghc
          df -h

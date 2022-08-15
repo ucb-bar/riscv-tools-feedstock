@@ -21,8 +21,6 @@ jobs:
 
   steps:
   # TODO: Fast finish on azure pipelines?
-  - checkout: self
-    fetchDepth: 0
   - script: |
       export CI=azure
       export OSX_FORCE_SDK_DOWNLOAD="1"
