@@ -11,3 +11,11 @@ skip_render:
   - .github/ISSUE_TEMPLATE.md
   - .github/PULL_REQUEST_TEMPLATE.md
   - .github/workflows
+
+providers:
+  linux: github_actions
+  linux_64: github_actions
+  osx_64: None
+  win_64: None
+  linux_ppc64le: None
+  linux_aarch64: None
