@@ -64,7 +64,7 @@ test:
 
 # Uncomment the following if this will be on a forge
 # Remove these lines if this is only be used for CI
-#extra:
-#  recipe-maintainers:
-#    - BobaFett
-#    - LisaSimpson
+extra:
+  recipe-maintainers:
+    - BobaFett
+    - LisaSimpson
