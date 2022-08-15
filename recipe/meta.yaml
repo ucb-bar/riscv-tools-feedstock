@@ -7,7 +7,9 @@ package:
   version: {{ version }}
 
 source:
-  git_url: {{ environ.get('FEEDSTOCK_ROOT', '..') }}
+  - folder: src
+    git_url: https://github.com/abejgonzalez/ucb-bar-riscv-tools.git
+    git_rev: 705708728f6d597070b57782320cddc106b5fd2e
 
 build:
   number: {{ build_number }}
