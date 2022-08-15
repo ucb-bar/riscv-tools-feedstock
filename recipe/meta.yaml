@@ -58,6 +58,9 @@ requirements:
     # obvi this would need to be made linux-specific if we supported other MacOS or Windows
     - kernel-headers_linux-64>=2.6.38
     - glib
+    - pixman
+    - zstd
+    - libcurl
 
 test:
   commands:
