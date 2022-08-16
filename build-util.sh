@@ -54,6 +54,12 @@ module_make() ( # <submodule> <target..>
     fi
 )
 
+module_clean() ( # <submodule>
+    set -e -o pipefail
+    build_dir="${SRCDIR}/${1}/build"
+    (set -x; "${MAKE}" -C "$build_dir" clean)  # get rid of intermediate files
+)
+
 module_build() ( # <submodule> [configure-arg..]
     set -e -o pipefail
     name=$1

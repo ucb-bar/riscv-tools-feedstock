@@ -122,8 +122,12 @@ module_build riscv-isa-sim --prefix="${RISCV}" --with-boost=no --with-boost-asio
 
 # build static libfesvr library for linking into firesim driver (or others)
 echo '==>  Installing libfesvr static library'
+OLDCLEANAFTERINSTALL=$CLEANAFTERINSTALL
+CLEANAFTERINSTALL=""
 module_make riscv-isa-sim libfesvr.a
 cp -p "${DIR}/riscv-isa-sim/build/libfesvr.a" "${RISCV}/lib/"
+CLEANAFTERINSTALL=$OLDCLEANAFTERINSTALL
+module_clean riscv-isa-sim
 
 CC= CXX= module_all riscv-pk --prefix="${RISCV}" --host=riscv${XLEN}-unknown-elf
 module_all riscv-tests --prefix="${RISCV}/riscv${XLEN}-unknown-elf" --with-xlen=${XLEN}
