@@ -16,6 +16,3 @@
 [submodule "libgloss"]
 	path = libgloss
 	url = https://github.com/ucb-bar/libgloss-htif.git
-[submodule "qemu"]
-	path = qemu
-	url = https://github.com/qemu/qemu.git

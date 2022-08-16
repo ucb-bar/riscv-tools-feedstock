@@ -27,7 +27,6 @@ usage() {
     echo "Options"
     echo "   --prefix PREFIX       : Install destination. If unset, defaults to $(pwd)/riscv-tools-install"
     echo "                           or $(pwd)/esp-tools-install"
-    echo "   --ignore-qemu         : Ignore installing QEMU"
     echo "   --clean-after-install : Run make clean in calls to module_make and module_build"
     echo "   --arch -a             : Architecture (e.g., rv64gc)"
     echo "   --help -h             : Display this message"
@@ -43,7 +42,6 @@ die() {
 }
 
 TOOLCHAIN="riscv-tools"
-IGNOREQEMU=""
 CLEANAFTERINSTALL=""
 RISCV=""
 ARCH=""
@@ -57,8 +55,6 @@ do
         -p | --prefix )
             shift
             RISCV=$(realpath $1) ;;
-        --ignore-qemu )
-            IGNOREQEMU="true" ;;
         -a | --arch )
             shift
             ARCH=$1 ;;
@@ -135,28 +131,5 @@ module_all riscv-tests --prefix="${RISCV}/riscv${XLEN}-unknown-elf" --with-xlen=
 # Common tools (not in any particular toolchain dir)
 
 CC= CXX= SRCDIR="$(pwd)" module_all libgloss --prefix="${RISCV}/riscv${XLEN}-unknown-elf" --host=riscv${XLEN}-unknown-elf
-
-if [ -z "$IGNOREQEMU" ] ; then
-    echo "=>  Starting qemu build"
-    dir="$(pwd)/qemu"
-    (
-        # newer version of BFD-based ld has made '-no-pie' an error because it renamed to '--no-pie'
-        # meanwhile, ld.gold will still accept '-no-pie'
-        # QEMU 5.0 still uses '-no-pie' in it's linker options
-
-        # default LD to ld if it isn't set
-        if ( set +o pipefail; ${LD:-ld} -no-pie |& grep 'did you mean --no-pie' >/dev/null); then
-        echo "==>  LD doesn't like '-no-pie'"
-        # LD has the problem, look for ld.gold
-        if type ld.gold >&/dev/null; then
-            echo "==>  Using ld.gold to link QEMU"
-            export LD=ld.gold
-        fi
-        fi
-
-        # now actually do the build
-        SRCDIR="$(pwd)" module_build qemu --prefix="${RISCV}" --target-list=riscv${XLEN}-softmmu --disable-werror
-    )
-fi
 
 echo "Toolchain Build Complete!"
