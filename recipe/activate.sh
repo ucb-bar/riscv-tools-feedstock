@@ -91,7 +91,7 @@ fi
 _ucbbarriscvtools_activation \
   @NATURE@ \
   "RISCV,${CONDA_PREFIX}/riscv" \
-  "PATH,${CONDA_PREFIX}/riscv/bin:${PATH}"
+  "PATH,${CONDA_PREFIX}/riscv/bin:${PATH}" \
   "LD_LIBRARY_PATH,${CONDA_PREFIX}/riscv/lib:${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
 
