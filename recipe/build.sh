@@ -2,7 +2,7 @@
 
 set -ex
 
-git submodule deinit --force ./src/riscv-gnu-toolchain/qemu
+git -C ./src/riscv-gnu-toolchain submodule deinit --force qemu
 
 NPROC=$CPU_COUNT ./src/build-toolchains.sh --prefix $PREFIX/riscv
 
