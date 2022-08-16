@@ -2,7 +2,9 @@
 
 set -ex
 
-NPROC=$CPU_COUNT ./src/build-toolchains.sh --prefix $PREFIX/riscv --clean-after-install
+git submodule deinit --force ./src/riscv-gnu-toolchain/qemu
+
+NPROC=$CPU_COUNT ./src/build-toolchains.sh --prefix $PREFIX/riscv
 
 # create activate & deactivate scripts that manage the toolchain
 mkdir -p "${PREFIX}"/etc/conda/{de,}activate.d
