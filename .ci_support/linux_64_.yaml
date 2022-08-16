@@ -12,6 +12,8 @@ glib:
 - '2'
 gmp:
 - '6'
+libcurl:
+- '7'
 mpfr:
 - '4'
 ncurses:
@@ -19,11 +21,17 @@ ncurses:
 pin_run_as_build:
   gmp:
     max_pin: x
+  libcurl:
+    max_pin: x
   mpfr:
     max_pin: x
   zlib:
     max_pin: x.x
+pixman:
+- '0'
 target_platform:
 - linux-64
 zlib:
 - '1.2'
+zstd:
+- '1.5'

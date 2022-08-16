@@ -34,6 +34,9 @@ provider:
   linux: github_actions
   osx: None
   win: None
+channels:
+  targets:
+    - ["ucb-bar", "main"]
 recipe_dir: recipe
 # skip unnecessary files since this is not a full-fledged conda-forge feedstock
 skip_render:
