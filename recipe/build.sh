@@ -2,7 +2,7 @@
 
 set -ex
 
-NPROC=$CPU_COUNT ./src/build-toolchains.sh --prefix $PREFIX/riscv
+NPROC=$CPU_COUNT ./src/build-toolchains.sh --prefix $PREFIX/riscv --clean-after-install
 
 # create activate & deactivate scripts that manage the toolchain
 mkdir -p "${PREFIX}"/etc/conda/{de,}activate.d
