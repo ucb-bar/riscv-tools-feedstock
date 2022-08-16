@@ -90,9 +90,9 @@ fi
 
 _ucbbarriscvtools_activation \
   @NATURE@ \
-  "RISCV,${CONDA_PREFIX}/riscv" \
-  "PATH,${CONDA_PREFIX}/riscv/bin:${PATH}" \
-  "LD_LIBRARY_PATH,${CONDA_PREFIX}/riscv/lib:${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+  "RISCV,${CONDA_PREFIX}/riscv-tools" \
+  "PATH,${CONDA_PREFIX}/riscv-tools/bin:${PATH}" \
+  "LD_LIBRARY_PATH,${CONDA_PREFIX}/riscv-tools/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
 
 if [ $? -ne 0 ]; then
