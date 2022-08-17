@@ -18,6 +18,8 @@ build:
   # needed to avoid overlinking errors
   missing_dso_whitelist:
     - '*'
+  # needed to avoid unable to find specs files errors
+  detect_binary_files_with_prefix: False
 
 requirements:
   build:
