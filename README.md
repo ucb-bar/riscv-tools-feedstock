@@ -5,7 +5,7 @@ Home: https://github.com/abejgonzalez/ucb-bar-riscv-tools
 
 Package license: 
 
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/new-2-feedstock/blob/master/LICENSE.txt)
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/new-feedstock/blob/master/LICENSE.txt)
 
 Summary: 
 
