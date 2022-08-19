@@ -1,0 +1,27 @@
+cdt_name:
+- cos6
+channel_sources:
+- conda-forge
+channel_targets:
+- ucb-bar main
+docker_image:
+- quay.io/condaforge/linux-anvil-cos7-x86_64
+expat:
+- '2'
+gmp:
+- '6'
+mpfr:
+- '4'
+ncurses:
+- '6'
+pin_run_as_build:
+  gmp:
+    max_pin: x
+  mpfr:
+    max_pin: x
+  zlib:
+    max_pin: x.x
+target_platform:
+- linux-64
+zlib:
+- '1.2'
