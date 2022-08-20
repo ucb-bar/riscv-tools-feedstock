@@ -41,13 +41,13 @@ requirements:
     - flex
     - libtool
     - zlib
-  host:
+    #- host:
     - expat
     - ncurses
     - gmp
     - mpfr
     - mpc
-    - zlib
+    #- zlib
 
 test:
   commands:
