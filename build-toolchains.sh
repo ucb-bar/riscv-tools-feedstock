@@ -67,11 +67,6 @@ do
     shift
 done
 
-if [ -z ${CONDA_DEFAULT_ENV+x} ]; then
-    error "ERROR: No conda environment detected. Did you activate the conda environment (e.x. 'conda activate chipyard')?"
-    exit 1
-fi
-
 if [ -z "$RISCV" ] ; then
       INSTALL_DIR="$TOOLCHAIN-install"
       RISCV="$(pwd)/$INSTALL_DIR"
