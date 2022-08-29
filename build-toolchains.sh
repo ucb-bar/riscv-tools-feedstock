@@ -107,29 +107,8 @@ case ${MAKE_VER} in
         ;;
 esac
 
-module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${ARCH:+--with-arch=${ARCH}}
 echo '==>  Building GNU/Linux toolchain'
+module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${ARCH:+--with-arch=${ARCH}}
 module_make riscv-gnu-toolchain linux
-
-echo '==>  Building ISA sim'
-# disable boost explicitly for https://github.com/riscv-software-src/riscv-isa-sim/issues/834
-# since we don't have it in our requirements
-module_build riscv-isa-sim --prefix="${RISCV}" --with-boost=no --with-boost-asio=no --with-boost-regex=no
-
-# build static libfesvr library for linking into firesim driver (or others)
-echo '==>  Installing libfesvr static library'
-OLDCLEANAFTERINSTALL=$CLEANAFTERINSTALL
-CLEANAFTERINSTALL=""
-module_make riscv-isa-sim libfesvr.a
-cp -p "${DIR}/riscv-isa-sim/build/libfesvr.a" "${RISCV}/lib/"
-CLEANAFTERINSTALL=$OLDCLEANAFTERINSTALL
-module_clean riscv-isa-sim
-
-CC= CXX= module_all riscv-pk --prefix="${RISCV}" --host=riscv${XLEN}-unknown-elf
-module_all riscv-tests --prefix="${RISCV}/riscv${XLEN}-unknown-elf" --with-xlen=${XLEN}
-
-# Common tools (not in any particular toolchain dir)
-
-CC= CXX= SRCDIR="$(pwd)" module_all libgloss --prefix="${RISCV}/riscv${XLEN}-unknown-elf" --host=riscv${XLEN}-unknown-elf
 
 echo "Toolchain Build Complete!"
