@@ -18,6 +18,15 @@ build:
     - '*'
   # needed to avoid unable to find specs files errors
   detect_binary_files_with_prefix: False
+  # list out areas where conda can use patchelf (ignore the sysroot)
+  binary_relocation:
+    - 'riscv-tools/bin/**'
+    - 'riscv-tools/include/**'
+    - 'riscv-tools/lib/**'
+    - 'riscv-tools/libexec/**'
+    - 'riscv-tools/riscv64-unknown-elf/**'
+    - 'riscv-tools/riscv64-unknown-linux-gnu/**'
+    - 'riscv-tools/share/**'
 
 requirements:
   build:
@@ -48,6 +57,7 @@ requirements:
     - mpfr
     - mpc
     #- zlib
+    - file
 
 test:
   commands:
