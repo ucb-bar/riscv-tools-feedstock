@@ -36,4 +36,3 @@ channels:
 skip_render:
   - .gitattributes
   - .gitignore
-upload_on_branch: main
