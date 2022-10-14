@@ -3,7 +3,7 @@
 #this script is based on the firesim build toolchains script
 
 # exit script if any command fails
-set -ex
+set -e
 set -o pipefail
 
 # On macOS, use GNU readlink from 'coreutils' package in Homebrew/MacPorts
