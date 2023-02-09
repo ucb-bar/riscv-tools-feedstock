@@ -74,7 +74,7 @@ fi
 
 if [ -z "$ARCH" ] ; then
     XLEN=64
-elif [[ "$ARCH" =~ ^rv(32|64)((i?m?a?f?d?|g?)c?)$ ]]; then
+elif [[ "$ARCH" =~ ^rv(32|64)(((i?m?a?f?d?|g?)c?)v?)$ ]]; then
     XLEN=${BASH_REMATCH[1]}
 else
     error "invalid arch $ARCH"
