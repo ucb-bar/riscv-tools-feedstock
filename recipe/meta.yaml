@@ -31,8 +31,8 @@ build:
 requirements:
   build:
     # toolchain deps
-    - gcc==12
-    - gxx==12
+    - gcc>=10
+    - gxx>=10
     - conda-gcc-specs
     - gawk
     - sysroot_linux-64 2.17 # [linux64]
