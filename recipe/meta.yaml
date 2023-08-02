@@ -33,8 +33,8 @@ requirements:
     # TODO: should bound to <13?
     # defaults to gcc/gxx when on linux64
     # https://docs.conda.io/projects/conda-build/en/stable/resources/compiler-tools.html
-    - {{ compiler('c') }}>=10
-    - {{ compiler('cxx') }}>=10
+    - {{ compiler('c') }}>=10,<13
+    - {{ compiler('cxx') }}>=10,<13
 
     # TODO: unsure if needed if not building qemu
     #- sysroot_linux-64 2.17 # [linux64]
