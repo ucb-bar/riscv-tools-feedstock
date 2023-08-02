@@ -37,7 +37,7 @@ requirements:
     - {{ compiler('cxx') }}>=10
 
     # TODO: unsure if needed if not building qemu
-    #- sysroot_linux-64 2.17 # [linux64]
+    - sysroot_linux-64 2.17 # [linux64]
 
     # TODO: unsure if needed anymore (`riscv64-unknown-elf-ld -v` returns 2.39)
     # if building riscv-toolchain from source, we need to use bison=3.4 until we have
