@@ -59,10 +59,10 @@ requirements:
     - mpc
     #- zlib
     - file
-  ignore_run_exports:
+  ignore_run_exports_from:
     # nothing links against libpython, the build scripts just don't work out
     # of the box if you split the libs into build/host
-    - python_abi
+    - python
 
 test:
   commands:
