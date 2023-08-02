@@ -33,8 +33,8 @@ requirements:
     # TODO: should bound to <13?
     # defaults to gcc/gxx when on linux64
     # https://docs.conda.io/projects/conda-build/en/stable/resources/compiler-tools.html
-    - {{ compiler('c') }}>=10,<13
-    - {{ compiler('cxx') }}>=10,<13
+    - {{ compiler('c') }}>=10
+    - {{ compiler('cxx') }}>=10
 
     # TODO: unsure if needed if not building qemu
     #- sysroot_linux-64 2.17 # [linux64]
@@ -42,7 +42,7 @@ requirements:
     # TODO: unsure if needed anymore (`riscv64-unknown-elf-ld -v` returns 2.39)
     # if building riscv-toolchain from source, we need to use bison=3.4 until we have
     # https://github.com/riscv-collab/riscv-binutils-gdb/commit/314ec7aeeb1b2e68f0d8fb9990f2335f475a6e33
-    - bison #=3.4
+    - bison==3.4.* # note: doing =3.4 doesn't work
 
     - make
     - autoconf
