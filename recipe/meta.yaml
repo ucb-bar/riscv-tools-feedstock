@@ -62,7 +62,7 @@ requirements:
     - libtool
     - file
 
-    #- expat # IN HOST/RUN
+    - expat # IN HOST/RUN
     #- ncurses # IN HOST/RUN
     #- gmp # IN HOST/RUN
     #- mpfr # IN HOST/RUN
