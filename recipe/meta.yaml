@@ -30,12 +30,14 @@ build:
 
 requirements:
   build:
-    # TODO: should bound to <13?
-    # defaults to gcc/gxx when on linux64
-    # https://docs.conda.io/projects/conda-build/en/stable/resources/compiler-tools.html
-    - {{ compiler('c') }}>=10
-    - {{ compiler('cxx') }}>=10
-    #- conda-gcc-specs
+    ## TODO: should bound to <13?
+    ## defaults to gcc/gxx when on linux64
+    ## https://docs.conda.io/projects/conda-build/en/stable/resources/compiler-tools.html
+    #- {{ compiler('c') }}>=10
+    #- {{ compiler('cxx') }}>=10
+    - gcc>=10
+    - gxx>=10
+    - conda-gcc-specs
 
     - sysroot_linux-64 2.17 # [linux64]
 
