@@ -51,13 +51,13 @@ requirements:
 
     # TODO: re-enable individually
     - gawk
-    #- git
+    - git
     - dtc
     - binutils
     - python
-    #- flex
-    #- libtool
-    #- file
+    - flex
+    - libtool
+    - file
 
     #- expat # IN HOST/RUN
     #- ncurses # IN HOST/RUN
