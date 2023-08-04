@@ -103,7 +103,7 @@ case ${MAKE_VER} in
 esac
 
 echo '==>  Building GNU/Linux toolchain'
-module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${ARCH:+--with-arch=${ARCH}}
+module_build riscv-gnu-toolchain --prefix="${RISCV}" --enable-multilib --with-cmodel=medany ${ARCH:+--with-arch=${ARCH}}
 module_make riscv-gnu-toolchain linux
 
 echo "Toolchain Build Complete!"
