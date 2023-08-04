@@ -29,12 +29,10 @@ build:
     - 'riscv-tools/share/**'
 
 requirements:
+  # only build section used since we are building on linux-64 a package intended to work on linux-64
+  # host isn't needed since target-platform isn't another architecture
   build:
-    ## TODO: should bound to <13?
-    ## defaults to gcc/gxx when on linux64
-    ## https://docs.conda.io/projects/conda-build/en/stable/resources/compiler-tools.html
-    #- {{ compiler('c') }}>=10
-    #- {{ compiler('cxx') }}>=10
+    # the {{ compiler(...) }} jinja macros don't pick up system includes so explicitly use the compilers
     - gcc>=10
     - gxx>=10
     - conda-gcc-specs
@@ -49,40 +47,31 @@ requirements:
     - autoconf
     - automake
     - texinfo
-    #- pkg-config
     - patch
 
-    # TODO: re-enable individually
     - gawk
     - git
     - dtc
     - binutils
-    - python
     - flex
     - libtool
     - file
 
-    - expat # IN HOST/RUN
-    - ncurses # IN HOST/RUN
-    - gmp # IN HOST/RUN
-    - mpfr # IN HOST/RUN
-    - mpc # IN HOST/RUN
-    - zlib # IN HOST/RUN
-
-  host:
+    # packages also in host and/or run
     - gmp
     - mpfr
     - mpc
     - expat
     - ncurses
-    #- xz
     - zlib
+    - python
 
   run:
     - expat
     - mpfr
     - ncurses
     - zlib
+    - python # python_abi needed for riscv...gdb features
 
 test:
   commands:
