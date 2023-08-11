@@ -29,6 +29,7 @@ usage() {
     echo "                           or $(pwd)/esp-tools-install"
     echo "   --clean-after-install : Run make clean in calls to module_make and module_build"
     echo "   --arch -a             : Architecture (e.g., rv64gc)"
+    echo "   --abi -b              : ABI (e.g., lp64d)"
     echo "   --help -h             : Display this message"
     exit "$1"
 }
@@ -58,6 +59,9 @@ do
         -a | --arch )
             shift
             ARCH=$1 ;;
+        -b | --abi )
+            shift
+            ABI=$1 ;;
         --clean-after-install )
             CLEANAFTERINSTALL="true" ;;
         * )
@@ -103,7 +107,7 @@ case ${MAKE_VER} in
 esac
 
 echo '==>  Building GNU/Linux toolchain'
-module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${ARCH:+--with-arch=${ARCH}}
+module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${ARCH:+--with-arch=${ARCH}} ${ABI:+--with-abi=${ABI}}
 module_make riscv-gnu-toolchain linux
 
 echo "Toolchain Build Complete!"
