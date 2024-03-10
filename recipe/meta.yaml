@@ -65,6 +65,7 @@ requirements:
     - ncurses
     - zlib
     - python
+    - zstd
 
   run:
     - expat
@@ -72,6 +73,7 @@ requirements:
     - ncurses
     - zlib
     - python # python_abi needed for riscv...gdb features
+    - zstd
 
 test:
   commands:
