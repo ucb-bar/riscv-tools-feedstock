@@ -75,7 +75,7 @@ requirements:
 
 test:
   commands:
-    - test "$($PREFIX/riscv-tools/bin/riscv64-unknown-elf-gcc -dumpversion)" = "12.2.0"
+    - test "$($PREFIX/riscv-tools/bin/riscv64-unknown-elf-gcc -dumpversion)" = "13.2.0"
     - riscv64-unknown-elf-ld --version
     - riscv64-unknown-elf-gdb --version
 
