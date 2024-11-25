@@ -1,11 +1,11 @@
-About riscv-tools
-=================
+About riscv-tools-feedstock
+===========================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/riscv-tools-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/ucb-bar/riscv-tools-feedstock
 
 Package license: 
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/ucb-bar-riscv-tools-feedstock/blob/master/LICENSE.txt)
 
 Summary: RISC-V toolchain for UC Berkeley projects
 
