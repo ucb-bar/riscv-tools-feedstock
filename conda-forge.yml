@@ -30,9 +30,12 @@ provider:
   linux: github_actions
   osx: None
   win: None
+build_platforms:
+  linux_64: [3.9]
 channels:
   targets:
     - ["ucb-bar", "main"]
 skip_render:
   - .gitattributes
   - .gitignore
+clone_depth: 0
