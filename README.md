@@ -1,11 +1,11 @@
-About riscv-tools
-=================
+About riscv-tools-feedstock
+===========================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/riscv-tools-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/ucb-bar/riscv-tools-feedstock
 
 Package license: 
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/ucb-bar-riscv-tools-feedstock/blob/master/LICENSE.txt)
 
 Summary: RISC-V toolchain for UC Berkeley projects
 
@@ -13,7 +13,14 @@ Current build status
 ====================
 
 
-<table>
+<table><tr>
+    <td>GitHub Actions</td>
+    <td>
+      <a href="https://github.com/conda-forge/riscv-tools-feedstock/actions/workflows/conda-build.yml">
+        <img src="https://github.com/conda-forge/riscv-tools-feedstock/actions/workflows/conda-build.yml/badge.svg?event=push&branch=main">
+      </a>
+    </td>
+  </tr>
 </table>
 
 Current release info
@@ -85,7 +92,7 @@ merged, the recipe will be re-built and uploaded automatically to the
 everybody to install and use from the `ucb-bar` channel.
 Note that all branches in the conda-forge/riscv-tools-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
-on branches in forks and branches in the main repository should only be used to
+on branches in forks, and branches in the main repository should only be used to
 build distinct package versions.
 
 In order to produce a uniquely identifiable distribution:
