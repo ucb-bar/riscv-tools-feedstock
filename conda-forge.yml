@@ -27,7 +27,8 @@
 # documentation on possible keys and values.
 
 provider:
-  linux: github_actions
+  linux_64: github_actions
+  linux_aarch64: github_actions
   osx: None
   win: None
 channels:
@@ -36,3 +37,7 @@ channels:
 skip_render:
   - .gitattributes
   - .gitignore
+workflow_settings:
+  free_disk_space:
+    - provider: github_actions
+      value: max

@@ -1,3 +1,4 @@
 [submodule "riscv-gnu-toolchain"]
 	path = riscv-gnu-toolchain
-	url = https://github.com/ucb-bar/riscv-gnu-toolchain.git
+	url = https://github.com/riscv-collab/riscv-gnu-toolchain.git
+	update = none # prevent conda-build from auto recursive init-ing

@@ -12,7 +12,9 @@ source:
 build:
   number: {{ build_number }}
   string: {{ [build_number, ('h' + PKG_HASH), environ.get('GIT_DESCRIBE_HASH', '')]|join('_') }}
-  skip: True # [not linux64]
+  skip: True # [not (linux64 or aarch64)]
+  script_env:
+    - TOOLCHAIN_COMMIT
   # needed to avoid overlinking errors
   missing_dso_whitelist:
     - '*'
@@ -33,11 +35,15 @@ requirements:
   # host isn't needed since target-platform isn't another architecture
   build:
     # the {{ compiler(...) }} jinja macros don't pick up system includes so explicitly use the compilers
-    - gcc>=10
-    - gxx>=10
+    # Build with the latest host gcc available on conda-forge (15); there is no
+    # gcc 16 host package. This produces the gcc 16.x RISC-V toolchain (the gcc
+    # submodule of riscv-gnu-toolchain tracks releases/gcc-16).
+    - gcc >=15,<16
+    - gxx >=15,<16
     - conda-gcc-specs
 
     - sysroot_linux-64 2.17 # [linux64]
+    - sysroot_linux-aarch64 2.17 # [aarch64]
 
     # if building riscv-toolchain from source, we need to use bison==3.4.* until we have
     # https://github.com/riscv-collab/riscv-binutils-gdb/commit/314ec7aeeb1b2e68f0d8fb9990f2335f475a6e33
@@ -77,7 +83,10 @@ requirements:
 
 test:
   commands:
-    - test "$($PREFIX/riscv-tools/bin/riscv64-unknown-elf-gcc -dumpversion)" = "14.2.0"
+    # upstream master builds gcc 16.x now, so record the version instead of
+    # asserting the old 14.2.0 pin
+    - $PREFIX/riscv-tools/bin/riscv64-unknown-elf-gcc -dumpversion
+    - riscv64-unknown-elf-gcc --version
     - riscv64-unknown-elf-ld --version
     - riscv64-unknown-elf-gdb --version
 
@@ -88,3 +97,4 @@ about:
 extra:
   recipe-maintainers:
     - abejgonzalez
+    - jimfangx

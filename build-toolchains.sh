@@ -30,6 +30,7 @@ usage() {
     echo "   --clean-after-install : Run make clean in calls to module_make and module_build"
     echo "   --arch -a             : Architecture (e.g., rv64gc)"
     echo "   --abi -b              : ABI (e.g., lp64d)"
+    echo "   --multilib -m         : Build multilib variants (configure --enable-multilib)"
     echo "   --help -h             : Display this message"
     exit "$1"
 }
@@ -46,6 +47,7 @@ TOOLCHAIN="riscv-tools"
 CLEANAFTERINSTALL=""
 RISCV=""
 ARCH=""
+MULTILIB=""
 
 # getopts does not support long options, and is inflexible
 while [ "$1" != "" ];
@@ -62,6 +64,8 @@ do
         -b | --abi )
             shift
             ABI=$1 ;;
+        -m | --multilib )
+            MULTILIB="true" ;;
         --clean-after-install )
             CLEANAFTERINSTALL="true" ;;
         * )
@@ -107,7 +111,7 @@ case ${MAKE_VER} in
 esac
 
 echo '==>  Building GNU/Linux toolchain'
-module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${ARCH:+--with-arch=${ARCH}} ${ABI:+--with-abi=${ABI}}
+module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${MULTILIB:+--enable-multilib} ${ARCH:+--with-arch=${ARCH}} ${ABI:+--with-abi=${ABI}}
 module_make riscv-gnu-toolchain linux
 
 echo "Toolchain Build Complete!"
