@@ -111,7 +111,11 @@ case ${MAKE_VER} in
 esac
 
 echo '==>  Building GNU/Linux toolchain'
-module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${MULTILIB:+--enable-multilib} ${ARCH:+--with-arch=${ARCH}} ${ABI:+--with-abi=${ABI}}
+# Newlib excludes wide-character stdio using nano formatted I/O, but libstdc++ requires those functions
+# Select the full formatted-I/O implementation for newlib-nano so libc_nano.a works
+# this option overrides that default.
+NEWLIB_TARGET_FLAGS_EXTRA="${NEWLIB_TARGET_FLAGS_EXTRA:-} --disable-newlib-nano-formatted-io" \
+    module_build riscv-gnu-toolchain --prefix="${RISCV}" --with-cmodel=medany ${MULTILIB:+--enable-multilib} ${ARCH:+--with-arch=${ARCH}} ${ABI:+--with-abi=${ABI}}
 module_make riscv-gnu-toolchain linux
 
 echo "Toolchain Build Complete!"
