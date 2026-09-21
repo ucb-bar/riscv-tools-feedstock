@@ -1,0 +1,47 @@
+From: riscv-tools-feedstock
+Subject: Keep Linux RISC-V multilibs separate by ISA
+
+Linux RISC-V traditionally puts all RV64 multilibs with the same ABI in
+lib64/lp64d.  That is not sufficient when glibc is built for both scalar and
+vector ISAs: the later glibc build overwrites the earlier one, and GCC cannot
+select distinct libgcc/libstdc++ directories either.  Keep the ISA component
+in both the GCC and sysroot multilib paths.
+
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -559,1 +559,4 @@ stamps/build-glibc-linux-%: $(GLIBC_SRCDIR) $(GLIBC_SRC_GIT) stamps/build-gcc-linux-stage1
+-	$(eval $@_LIBDIRSUFFIX := $(if $($@_ABI),$(shell echo $($@_ARCH) | sed 's/.*rv\([0-9]*\).*/\1/')/$($@_ABI),))
++	# Keep the ISA in the sysroot path so scalar and vector glibc builds do not
++	# overwrite one another.  Use GCC's canonical directory names for aliases.
++	$(eval $@_LIBARCH := $(shell echo $($@_ARCH) | sed -e 's/^rv64gc$$/rv64imafdc/' -e 's/^rv64gcv$$/rv64imafdcv/'))
++	$(eval $@_LIBDIRSUFFIX := $(if $($@_ABI),$(shell echo $($@_ARCH) | sed 's/.*rv\([0-9]*\).*/\1/')/$($@_LIBARCH)/$($@_ABI),))
+--- a/gcc/config/riscv/t-linux
++++ b/gcc/config/riscv/t-linux
+@@ -1,5 +1,6 @@
+-# Only XLEN and ABI affect Linux multilib dir names, e.g. /lib32/ilp32d/
+-MULTILIB_DIRNAMES := $(patsubst rv32%,lib32,$(patsubst rv64%,lib64,$(MULTILIB_DIRNAMES)))
+-MULTILIB_OSDIRNAMES := $(patsubst lib%,../lib%,$(MULTILIB_DIRNAMES))
++# Keep the ISA in Linux multilib paths.  Otherwise rv64gc and rv64gcv with
++# lp64d both resolve to lib64/lp64d, causing one libc/libgcc/libstdc++ build
++# to overwrite the other and making GCC unable to select the right variant.
++MULTILIB_OSDIRNAMES := $(patsubst rv32%,../lib32/rv32%,$(patsubst rv64%,../lib64/rv64%,$(MULTILIB_DIRNAMES)))
+ 
+ MULTIARCH_DIRNAME := $(call if_multiarch,$(firstword $(subst -, ,$(target)))-linux-gnu)
+--- a/gcc/config/riscv/t-linux-multilib
++++ b/gcc/config/riscv/t-linux-multilib
+@@ -3 +3 @@
+-MULTILIB_OPTIONS = march=rv32imac/march=rv32ima/march=rv32imaf/march=rv32imafd/march=rv32imafc/march=rv32imafdc/march=rv32g/march=rv32gc/march=rv64imac/march=rv64ima/march=rv64imaf/march=rv64imafd/march=rv64imafc/march=rv64imafdc/march=rv64g/march=rv64gc mabi=ilp32/mabi=ilp32d/mabi=lp64/mabi=lp64d
++MULTILIB_OPTIONS = march=rv32imac/march=rv32ima/march=rv32imaf/march=rv32imafd/march=rv32imafc/march=rv32imafdc/march=rv32g/march=rv32gc/march=rv64imac/march=rv64ima/march=rv64imaf/march=rv64imafd/march=rv64imafc/march=rv64imafdc/march=rv64g/march=rv64gc/march=rv64imafdcv/march=rv64gcv mabi=ilp32/mabi=ilp32d/mabi=lp64/mabi=lp64d
+@@ -19 +19,3 @@
+-rv64gc ilp32 \
++rv64gc \
++rv64imafdcv \
++rv64gcv ilp32 \
+@@ -26 +26,2 @@
+-march=rv64imafdc/mabi=lp64d
++march=rv64imafdc/mabi=lp64d \
++march=rv64imafdcv/mabi=lp64d
+@@ -46 +46,2 @@
+-march.rv64imafdc/mabi.lp64d=march.rv64g/mabi.lp64d
++march.rv64imafdc/mabi.lp64d=march.rv64g/mabi.lp64d \
++march.rv64imafdcv/mabi.lp64d=march.rv64gcv/mabi.lp64d
