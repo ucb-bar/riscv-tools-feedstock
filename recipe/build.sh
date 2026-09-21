@@ -66,7 +66,8 @@ done
 # independently selectable.
 # See https://github.com/riscv-collab/riscv-gnu-toolchain/issues/1393, https://github.com/firesim/FireMarshal/pull/327
 patch -d . -p1 --forward --batch < "${RECIPE_DIR}/patches/riscv-linux-isa-multilib.patch"
-patch -d gcc -p1 --forward --batch < "${RECIPE_DIR}/patches/gcc-linux-isa-multilib.patch"
+# The GCC submodule is a GCC repository; its source root is gcc/gcc.
+patch -d gcc/gcc -p1 --forward --batch < "${RECIPE_DIR}/patches/gcc-linux-isa-multilib.patch"
 popd
 
 # make gcc14 errs warnings for gcc14 targets only
