@@ -1,19 +1,24 @@
 From: riscv-tools-feedstock
 Subject: Keep Linux GCC multilibs separate by ISA
 
-Keep the ISA in Linux GCC multilib paths and add a distinct vector runtime
-variant.  The aliases rv64gc and rv64gcv reuse the canonical runtime variants.
+Keep the established Linux GCC paths for existing scalar multilibs and add a
+distinct directory for the vector runtime.  The rv64gcv alias reuses the
+canonical rv64imafdcv runtime variant.
 
 --- a/config/riscv/t-linux
 +++ b/config/riscv/t-linux
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,8 @@
 -# Only XLEN and ABI affect Linux multilib dir names, e.g. /lib32/ilp32d/
 -MULTILIB_DIRNAMES := $(patsubst rv32%,lib32,$(patsubst rv64%,lib64,$(MULTILIB_DIRNAMES)))
 -MULTILIB_OSDIRNAMES := $(patsubst lib%,../lib%,$(MULTILIB_DIRNAMES))
-+# Keep the ISA in Linux multilib paths.  Otherwise rv64gc and rv64gcv with
-+# lp64d both resolve to lib64/lp64d, causing one libc/libgcc/libstdc++ build
-+# to overwrite the other and making GCC unable to select the right variant.
-+MULTILIB_OSDIRNAMES := $(patsubst rv32%,../lib32/rv32%,$(patsubst rv64%,../lib64/rv64%,$(MULTILIB_DIRNAMES)))
++# Preserve the established Linux paths for scalar multilibs.  Give only the
++# vector variant a distinct directory so rv64gc and rv64gcv with lp64d cannot
++# overwrite one another.  Map the alias and canonical spelling first, before
++# the remaining rv64 directories are collapsed to lib64.
++MULTILIB_DIRNAMES := $(patsubst rv64imafdcv,lib64/rv64imafdcv,$(MULTILIB_DIRNAMES))
++MULTILIB_DIRNAMES := $(patsubst rv64gcv,lib64/rv64imafdcv,$(MULTILIB_DIRNAMES))
++MULTILIB_DIRNAMES := $(patsubst rv32%,lib32,$(patsubst rv64%,lib64,$(MULTILIB_DIRNAMES)))
++MULTILIB_OSDIRNAMES := $(patsubst lib%,../lib%,$(MULTILIB_DIRNAMES))
 +
  MULTIARCH_DIRNAME := $(call if_multiarch,$(firstword $(subst -, ,$(target)))-linux-gnu)
 --- a/config/riscv/t-linux-multilib
