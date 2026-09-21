@@ -61,10 +61,12 @@ for sub in binutils gcc gdb glibc newlib; do
 done
 
 # The upstream Linux multilib layout aliases all RV64 ISAs to lib64/lp64d.
-# Apply the feedstock patch before configuring the toolchain so scalar and
-# vector glibc, libgcc, and libstdc++ archives remain independently selectable.
+# Apply the top-level and GCC-submodule portions from their respective source
+# roots so scalar and vector glibc, libgcc, and libstdc++ archives remain
+# independently selectable.
 # See https://github.com/riscv-collab/riscv-gnu-toolchain/issues/1393, https://github.com/firesim/FireMarshal/pull/327
-patch -p1 --forward --batch < "${RECIPE_DIR}/patches/riscv-linux-isa-multilib.patch"
+patch -d . -p1 --forward --batch < "${RECIPE_DIR}/patches/riscv-linux-isa-multilib.patch"
+patch -d gcc -p1 --forward --batch < "${RECIPE_DIR}/patches/gcc-linux-isa-multilib.patch"
 popd
 
 # make gcc14 errs warnings for gcc14 targets only
