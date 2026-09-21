@@ -1,14 +1,15 @@
 From: riscv-tools-feedstock
-Subject: Keep Linux glibc multilibs separate by ISA
+Subject: Keep the Linux vector glibc multilib separate
 
-Install each Linux glibc multilib under an ISA-specific sysroot directory so
-scalar and vector builds do not overwrite one another.
+Keep the established glibc multilib paths for the existing scalar variants and
+install only the vector variant under an ISA-specific directory.  This prevents
+rv64gcv from overwriting rv64gc without moving the libc paths expected by GCC
+for the existing rv32 and rv64 multilibs.
 
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -559,1 +559,4 @@ stamps/build-glibc-linux-%: $(GLIBC_SRCDIR) $(GLIBC_SRC_GIT) stamps/build-gcc-linux-stage1
+@@ -559,1 +559,3 @@ stamps/build-glibc-linux-%: $(GLIBC_SRCDIR) $(GLIBC_SRC_GIT) stamps/build-gcc-linux-stage1
 -	$(eval $@_LIBDIRSUFFIX := $(if $($@_ABI),$(shell echo $($@_ARCH) | sed 's/.*rv\([0-9]*\).*/\1/')/$($@_ABI),))
-+	# Keep the ISA in the sysroot path so scalar and vector glibc builds do not
-+	# overwrite one another.  Use GCC's canonical directory names for aliases.
-+	$(eval $@_LIBARCH := $(shell echo $($@_ARCH) | sed -e 's/^rv32gc$$/rv32imafdc/' -e 's/^rv64gc$$/rv64imafdc/' -e 's/^rv64gcv$$/rv64imafdcv/'))
-+	$(eval $@_LIBDIRSUFFIX := $(if $($@_ABI),$(shell echo $($@_ARCH) | sed 's/.*rv\([0-9]*\).*/\1/')/$($@_LIBARCH)/$($@_ABI),))
++	# Only rv64gcv needs an ISA component; preserve all upstream scalar paths.
++	$(eval $@_LIBISASUFFIX := $(if $(filter rv64gcv,$($@_ARCH)),rv64imafdcv/,))
++	$(eval $@_LIBDIRSUFFIX := $(if $($@_ABI),$(shell echo $($@_ARCH) | sed 's/.*rv\([0-9]*\).*/\1/')/$($@_LIBISASUFFIX)$($@_ABI),))
