@@ -1,15 +1,25 @@
 From: riscv-tools-feedstock
-Subject: Keep the Linux vector glibc multilib separate
+Subject: Keep the Linux vector glibc and loader multilib separate
 
 Keep the established glibc multilib paths for the existing scalar variants and
 install only the vector variant under an ISA-specific directory.  This prevents
 rv64gcv from overwriting rv64gc without moving the libc paths expected by GCC
-for the existing rv32 and rv64 multilibs.
+for the existing rv32 and rv64 multilibs.  The dynamic loader uses rtlddir,
+which is independent of libdir and slibdir, so give the vector loader the same
+ISA-specific location as its shared libraries.  The canonical loader in /lib
+then remains the scalar RV64GC build and can load both scalar and vector DSOs.
 
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -559,1 +559,3 @@ stamps/build-glibc-linux-%: $(GLIBC_SRCDIR) $(GLIBC_SRC_GIT) stamps/build-gcc-linux-stage1
+@@ -559,1 +559,4 @@ stamps/build-glibc-linux-%: $(GLIBC_SRCDIR) $(GLIBC_SRC_GIT) stamps/build-gcc-linux-stage1
 -	$(eval $@_LIBDIRSUFFIX := $(if $($@_ABI),$(shell echo $($@_ARCH) | sed 's/.*rv\([0-9]*\).*/\1/')/$($@_ABI),))
-+	# Only rv64gcv needs an ISA component; preserve all upstream scalar paths.
-+	$(eval $@_LIBISASUFFIX := $(if $(filter rv64gcv,$($@_ARCH)),rv64imafdcv/,))
++	# The generated glibc target uses the canonical rv64imafdcv spelling,
++	# while GCC also accepts rv64gcv.  Keep either spelling out of /lib.
++	$(eval $@_LIBISASUFFIX := $(if $(filter rv64gcv rv64imafdcv,$($@_ARCH)),rv64imafdcv/,))
 +	$(eval $@_LIBDIRSUFFIX := $(if $($@_ABI),$(shell echo $($@_ARCH) | sed 's/.*rv\([0-9]*\).*/\1/')/$($@_LIBISASUFFIX)$($@_ABI),))
+@@ -564,1 +567,4 @@ stamps/build-glibc-linux-%: $(GLIBC_SRCDIR) $(GLIBC_SRC_GIT) stamps/build-gcc-linux-stage1
+-	$(eval $@_LIBDIROPTS := $(if $@_LIBDIRSUFFIX,--libdir=/usr/lib$($@_LIBDIRSUFFIX) libc_cv_slibdir=/lib$($@_LIBDIRSUFFIX) libc_cv_rtlddir=/lib,))
++	# Keep /lib/ld-linux-*.so scalar.  The RVV loader is installed beside the
++	# RVV shared libraries so parallel multilib installs cannot overwrite it.
++	$(eval $@_RTLDDIR := $(if $($@_LIBISASUFFIX),/lib$($@_LIBDIRSUFFIX),/lib))
++	$(eval $@_LIBDIROPTS := $(if $@_LIBDIRSUFFIX,--libdir=/usr/lib$($@_LIBDIRSUFFIX) libc_cv_slibdir=/lib$($@_LIBDIRSUFFIX) libc_cv_rtlddir=$($@_RTLDDIR),))
