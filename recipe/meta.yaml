@@ -74,6 +74,10 @@ requirements:
     - zstd
 
   run:
+    # The GCC driver is linked against libiconv when configure finds it in the
+    # build environment.  Keep it explicit: it is not guaranteed to arrive
+    # through the dependency closure of the other runtime requirements.
+    - libiconv
     - expat
     - mpfr
     - ncurses
